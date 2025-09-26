@@ -8,11 +8,17 @@ function setup() {
   background(204);
   socket = io();
 
-  socket.on('something', function(data) {
-    console.log('received', data);
-    fill(0);
-    ellipse(data.x, data.y, 10, 10);
-    // do something with the data
+  // socket.on('something', function(data) {
+  //   console.log('received', data);
+  //   fill(0);
+  //   ellipse(data.x, data.y, 10, 10);
+  //   // do something with the data
+  // });
+  socket.on('allStrokes', function(data) {
+    background(255);
+    for (let i=0; i < data.length; i++) {
+      circle(data[i].x, data[i].y, 5);
+    }
   });
 }
 
