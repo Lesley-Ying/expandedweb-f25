@@ -17,8 +17,13 @@ function setup() {
   socket.on('allStrokes', function(data) {
     //background(255);
     for (let i=0; i < data.length; i++) {
-      circle(data[i].x, data[i].y, 5);
+      circle(data[i].x, data[i].y, 10);
     }
+  });
+  socket.on('draw', function(data) {
+    console.log('Received draw from other user:', data);
+    fill(0);
+    ellipse(data.x, data.y, 10);
   });
 }
 
@@ -35,7 +40,7 @@ function mousePressed() {
   }
   fill(0);
   ellipse(mouseX,mouseY,10,10);
-  socket.emit('allStrokes', data);
+  socket.emit('draw', data);
 
 
   // besides just "something" you can also have multiple,
