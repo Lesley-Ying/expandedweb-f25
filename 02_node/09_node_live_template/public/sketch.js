@@ -10,6 +10,8 @@ function setup() {
 
   socket.on('something', function(data) {
     console.log('received', data);
+    fill(0);
+    ellipse(data.x, data.y, 10, 10);
     // do something with the data
   });
 }
