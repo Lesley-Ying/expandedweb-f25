@@ -8,11 +8,22 @@ function setup() {
   background(204);
   socket = io();
 
-  socket.on('something', function(data) {
-    console.log('received', data);
+  // socket.on('something', function(data) {
+  //   console.log('received', data);
+  //   fill(0);
+  //   ellipse(data.x, data.y, 10, 10);
+  //   // do something with the data
+  // });
+  socket.on('allStrokes', function(data) {
+    background(255);
+    for (let i=0; i < data.length; i++) {
+      circle(data[i].x, data[i].y, 5);
+    }
+  });
+  socket.on('draw', function(data) {
+    console.log('Received draw from other user:', data);
     fill(0);
-    ellipse(data.x, data.y, 10, 10);
-    // do something with the data
+    ellipse(data.x, data.y, 10);
   });
 }
 
@@ -29,7 +40,7 @@ function mousePressed() {
   }
   fill(0);
   ellipse(mouseX,mouseY,10,10);
-  socket.emit('something', data);
+  socket.emit('draw', data);
 
 
   // besides just "something" you can also have multiple,
