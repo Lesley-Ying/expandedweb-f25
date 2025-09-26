@@ -25,6 +25,8 @@ function mousePressed() {
     id: socket.id,  // often useful to have this id
     // add other data to send here
   }
+  fill(0);
+  ellipse(mouseX,mouseY,10,10);
   socket.emit('something', data);
 
 
