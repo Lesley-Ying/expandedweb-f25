@@ -4,7 +4,7 @@
 let socket;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(windowWidth,windowHeight);
   background(204);
   socket = io();
 
