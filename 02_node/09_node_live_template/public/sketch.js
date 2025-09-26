@@ -5,7 +5,7 @@ let socket;
 
 function setup() {
   createCanvas(400, 400);
-
+  background(204);
   socket = io();
 
   socket.on('something', function(data) {
@@ -15,7 +15,7 @@ function setup() {
 }
 
 function draw() {
-  background(204);
+  //background(204);
 }
 
 function mousePressed() {
