@@ -20,7 +20,7 @@ function draw() {
 
 function mousePressed() {
   let data = {
-    x: mouseX,
+    x: mouseX+"1",
     y: mouseY,
     id: socket.id,  // often useful to have this id
     // add other data to send here
