@@ -17,6 +17,7 @@ function setup() {
   socket.on('allStrokes', function(data) {
     //background(255);
     for (let i=0; i < data.length; i++) {
+      fill(0);
       circle(data[i].x, data[i].y, 10);
     }
   });
