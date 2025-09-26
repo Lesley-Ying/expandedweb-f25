@@ -35,7 +35,7 @@ function mousePressed() {
   }
   fill(0);
   ellipse(mouseX,mouseY,10,10);
-  socket.emit('something', data);
+  socket.emit('allStrokes', data);
 
 
   // besides just "something" you can also have multiple,
