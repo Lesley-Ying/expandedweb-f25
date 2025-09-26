@@ -15,7 +15,7 @@ function setup() {
   //   // do something with the data
   // });
   socket.on('allStrokes', function(data) {
-    background(255);
+    //background(255);
     for (let i=0; i < data.length; i++) {
       circle(data[i].x, data[i].y, 5);
     }
