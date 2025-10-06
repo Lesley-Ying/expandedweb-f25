@@ -10,10 +10,10 @@ let collisionSound;
 let lastCollisionTime = 0;
 let otherUsers = [];
 
-
+//having trouble getting the sound library?
 // function preload(){
 //   winSound=loadSound("win.wav")
-//collisionSound = loadSound("collision.wav");
+// collisionSound = loadSound("collision.wav");
 // }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -38,10 +38,10 @@ function setup() {
       y: data.y * height
     };
   });
-  socket.on('playSound', function() {
-    console.log('Playing win sound!');
-    winSound.play();
-  });
+  // socket.on('playSound', function() {
+  //   console.log('Playing win sound!');
+  //   winSound.play();
+  // });
 
   socket.on('userLeft', function(data) {
     delete otherUsers[data];
@@ -52,7 +52,7 @@ function draw() {
   let c1 = color(0);
   let c2 = color(255);
   let progress = constrain(transition, 0, 1);
-  transition = min(transition + 0.05, 1);
+  
   
   if (bgIsBlack) {
     bgcolor = lerpColor(c2, c1, progress);
@@ -64,7 +64,7 @@ function draw() {
 
   background(bgcolor);
   noCursor();
-
+//check myself
   let distance = dist(mouseX, mouseY, x, y);
 
   if (distance < 1) {
@@ -73,24 +73,35 @@ function draw() {
     };
     socket.emit('trigger',data)
   }
+  //check others as well, and check whether there's collision
   for (let id in otherUsers) {
     let user = otherUsers[id];
+    let otherDistance=dist(user.x,user.y,x,y);
+    if(otherDistance<1){
+    let data={
+      id:id
+    };
+    socket.emit('trigger', data);
+  }
+// for collision
     let d = dist(mouseX, mouseY, user.x, user.y);
     if (d < size && millis() - lastCollisionTime > 1000) {
-      collisionSound.play();
+     // collisionSound.play();
       lastCollisionTime = millis();
     }
   }
 
   //lerpColor
+  if(transition<1){
   transition += 0.05;
+  }
 
   //draw static circle
   noStroke();
   fill(holeColor);
   circle(x, y, size);
 
-  //yourself
+  //myself
   fill(bgcolor);
   circle(mouseX, mouseY, size);
   //others
@@ -108,9 +119,9 @@ function mouseMoved(){
   }
   socket.emit('mouseMove', data);
 }
-function mousePressed() {
-  userStartAudio();
-}
+// function mousePressed() {
+//   userStartAudio();
+// }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   noCursor();
