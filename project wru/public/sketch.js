@@ -17,6 +17,7 @@ let otherUsers = [];
 // }
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  noCursor();
   x = width / 2;
   y = height / 2;
   bgcolor = color(0);
@@ -111,4 +112,5 @@ function mousePressed() {
 }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  noCursor();
 }
