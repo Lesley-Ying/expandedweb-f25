@@ -46,8 +46,8 @@ io.on('connection', function(socket) {
     }
     
    
-    gameState.targetX = Math.random();
-    gameState.targetY = Math.random();
+    State.targetX = Math.random();
+    State.targetY = Math.random();
     
     io.emit('State', State);
     

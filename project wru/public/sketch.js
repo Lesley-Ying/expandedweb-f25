@@ -9,7 +9,7 @@ let winSound;
 let otherUsers = {};
 
 function preload(){
-  winSound=loadSound("public/win.wav")
+  winSound=loadSound("win.wav")
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -94,7 +94,7 @@ function draw() {
   for(let id in otherUsers){
     let user=otherUsers[id];
     fill(bgcolor);
-    circle(user.s,user.y,size)
+    circle(user.x,user.y,size)
   }
 }
 function mouseMoved(){
