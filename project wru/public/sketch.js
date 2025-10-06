@@ -1,7 +1,7 @@
 let socket;
 let x;
 let y;
-let bgIsblack = true;
+let bgIsBlack = true;
 let size = 100;
 let changeSize = 50;
 let transition = 0; 
@@ -48,7 +48,7 @@ function draw() {
   let c2 = color(255);
   let progress = constrain(transition, 0, 1);
   
-  if (bgIsblack) {
+  if (bgIsBlack) {
     bgcolor = lerpColor(c2, c1, progress);
     holeColor = lerpColor(c1, c2, progress);
   } else {
