@@ -51,7 +51,7 @@ io.on('connection', function(socket) {
     
     io.emit('State', State);
     
-    //io.emit('playSound');
+    io.emit('playSound');
   });
 
 
