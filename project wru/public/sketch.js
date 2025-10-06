@@ -52,6 +52,7 @@ function draw() {
   let c1 = color(0);
   let c2 = color(255);
   let progress = constrain(transition, 0, 1);
+  transition = min(transition + 0.05, 1);
   
   if (bgIsBlack) {
     bgcolor = lerpColor(c2, c1, progress);
