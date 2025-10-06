@@ -1,50 +1,49 @@
-// Expanded Web
-// NYUSH F25 - gohai
-
-let socket;
-
+let x;
+let y;
+let bgIsblack=true;
+let size=100;
+let changeSize=50;
+//sound trigger:
+//color change
+//if you're close to each other
+//how can you see yourself in others' eyes:if close, show stroke?
 function setup() {
-  createCanvas(windowWidth,windowHeight);
-  background(204);
-  socket = io();
-
-  // socket.on('something', function(data) {
-  //   console.log('received', data);
-  //   fill(0);
-  //   ellipse(data.x, data.y, 10, 10);
-  //   // do something with the data
-  // });
-  socket.on('allStrokes', function(data) {
-    //background(255);
-    for (let i=0; i < data.length; i++) {
-      fill(0);
-      circle(data[i].x, data[i].y, 10);
-    }
-  });
-  socket.on('draw', function(data) {
-    console.log('Received draw from other user:', data);
-    fill(0);
-    ellipse(data.x, data.y, 10);
-  });
+  createCanvas(windowWidth, windowHeight);
+  x=width/2;
+  y=height/2;
+  bgcolor=color(0);
+  holeColor=color(255);
 }
 
 function draw() {
-  //background(204);
-}
-
-function mousePressed() {
-  let data = {
-    x: mouseX,
-    y: mouseY,
-    id: socket.id,  // often useful to have this id
-    // add other data to send here
+  background(bgcolor);
+  if(bgIsblack){
+    bgcolor=color(0);
+    holeColor=color(255);
+  }else{
+    bgcolor=color(255);
+    holeColor=color(0);
   }
-  fill(0);
-  ellipse(mouseX,mouseY,10,10);
-  socket.emit('draw', data);
-
-
-  // besides just "something" you can also have multiple,
-  // different kinds of messages (each with their own event
-  // handler in setup)
+  noCursor();
+  
+   let distance=dist(mouseX,mouseY,x,y);
+  if(distance<1){
+    bgIsblack=!bgIsblack;
+   size+=changeSize;
+    if(size>=450){
+      changeSize*=-1;
+    }else if(size<=100){
+changeSize*=-1;
+    }
+    
+    console.log(size)
+    x=random(0,width);
+    y=random(0,height);
+  }
+  noStroke();
+  fill(holeColor);
+  circle(x,y,size);
+  fill(bgcolor);
+  circle(mouseX,mouseY,size);
+  
 }
