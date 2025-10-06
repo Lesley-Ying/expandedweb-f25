@@ -8,9 +8,9 @@ let transition = 0;
 let winSound;
 let collisionSound;
 let lastCollisionTime = 0;
-let otherUsers = [];
+let otherUsers ={};
 
-//having trouble getting the sound library?
+// getting error message when linking p5 sound library
 // function preload(){
 //   winSound=loadSound("win.wav")
 // collisionSound = loadSound("collision.wav");
@@ -23,6 +23,7 @@ function setup() {
   bgcolor = color(0);
   holeColor = color(255);
   socket = io();
+  //receive lastest change and keep synchronized
   socket.on('State', function(data) {
     console.log('Received state:', data);
     bgIsBlack = data.bgIsBlack;
@@ -32,7 +33,9 @@ function setup() {
     y = data.targetY * height;
     transition = 0;
   });
+  //receive others' position from server
   socket.on('otherUser', function(data) {
+    console.log('Received otheruser position')
     otherUsers[data.id] = {
       x: data.x * width,
       y: data.y * height
@@ -53,7 +56,7 @@ function draw() {
   let c2 = color(255);
   let progress = constrain(transition, 0, 1);
   
-  
+  //color flip
   if (bgIsBlack) {
     bgcolor = lerpColor(c2, c1, progress);
     holeColor = lerpColor(c1, c2, progress);
@@ -66,7 +69,7 @@ function draw() {
   noCursor();
 //check myself
   let distance = dist(mouseX, mouseY, x, y);
-
+//event:trigger
   if (distance < 1) {
     let data={
       id:socket.id
@@ -91,7 +94,7 @@ function draw() {
     }
   }
 
-  //lerpColor
+  //maybe this solved the issue of sometimes background went undefined
   if(transition<1){
   transition += 0.05;
   }
@@ -101,10 +104,10 @@ function draw() {
   fill(holeColor);
   circle(x, y, size);
 
-  //myself
+  //draw myself
   fill(bgcolor);
   circle(mouseX, mouseY, size);
-  //others
+  //draw others
   for(let id in otherUsers){
     let user=otherUsers[id];
     fill(bgcolor);
@@ -117,6 +120,7 @@ function mouseMoved(){
     y:mouseY/height,
     id: socket.id,
   }
+  //send my position to the server
   socket.emit('mouseMove', data);
 }
 // function mousePressed() {

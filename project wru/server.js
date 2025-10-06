@@ -25,32 +25,30 @@ app.use(express.static('public'));
 
 io.on('connection', function(socket) {
   console.log(socket.id + ' connected from ' + socket.handshake.address);
+  //send the current global state to the newly connected client for initial display
   socket.emit('State', State);
+  //listen for my mouse move
   socket.on('mouseMove',function(data){
-
-    socket.broadcast.emit('otherUser', {
+    //broadcast it to all others
+      socket.broadcast.emit('otherUser', {
       id: socket.id,
       x: data.x,
       y: data.y
     });
   });
+  //trigger! update
   socket.on('trigger', function(data) {
     console.log(socket.id + ' triggered!');
-    
     State.bgIsBlack = !State.bgIsBlack;
     State.size += State.changeSize;
-    
-  
     if (State.size >= 450 || State.size <= 100) {
       State.changeSize *= -1;
     }
-    
-   
     State.targetX = Math.random();
     State.targetY = Math.random();
-    
+  
+    //broadcast the updated state to all clients to sync the display
     io.emit('State', State);
-    
     io.emit('playSound');
   });
 
