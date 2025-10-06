@@ -6,10 +6,14 @@ let size = 100;
 let changeSize = 50;
 let transition = 0; 
 let winSound;
-let otherUsers = {};
+let collisionSound;
+let lastCollisionTime = 0;
+let otherUsers = [];
+
 
 // function preload(){
 //   winSound=loadSound("win.wav")
+//collisionSound = loadSound("collision.wav");
 // }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -62,21 +66,18 @@ function draw() {
   let distance = dist(mouseX, mouseY, x, y);
 
   if (distance < 1) {
-    // winSound.play();
-    // bgIsblack = !bgIsblack;
-    // transition = 0; 
-
-    // size += changeSize;
-    // if (size >= 450 || size <= 100) {
-    //   changeSize *= -1;
-    // }
-
-    // x = random(0, width);
-    // y = random(0, height);
     let data={
       id:socket.id
     };
     socket.emit('trigger',data)
+  }
+  for (let id in otherUsers) {
+    let user = otherUsers[id];
+    let d = dist(mouseX, mouseY, user.x, user.y);
+    if (d < size && millis() - lastCollisionTime > 1000) {
+      collisionSound.play();
+      lastCollisionTime = millis();
+    }
   }
 
   //lerpColor
