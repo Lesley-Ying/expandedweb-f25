@@ -8,9 +8,9 @@ let transition = 0;
 let winSound;
 let otherUsers = {};
 
-function preload(){
-  winSound=loadSound("win.wav")
-}
+// function preload(){
+//   winSound=loadSound("win.wav")
+// }
 function setup() {
   createCanvas(windowWidth, windowHeight);
   x = width / 2;
