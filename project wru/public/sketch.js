@@ -9,7 +9,7 @@ let winSound;
 let otherUsers = {};
 
 function preload(){
-  winSound=loadSound("win.wav")
+  winSound=loadSound("public/win.wav")
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
