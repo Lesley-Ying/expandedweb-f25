@@ -51,6 +51,13 @@ io.on('connection', function(socket) {
     io.emit('State', State);
     io.emit('playSound');
   });
+  // socket.on('collisionPush', function(data) {
+  //   io.emit('otherUser', {
+  //     id: data.id,
+  //     x: data.x,
+  //     y: data.y
+  //   });
+  // });
 
 
   socket.on('disconnect', function(reason) {

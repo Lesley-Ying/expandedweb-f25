@@ -9,13 +9,12 @@ let winSound;
 let collisionSound;
 let lastCollisionTime = 0;
 let otherUsers ={};
-let isConnected = false;
 
 // getting error message when linking p5 sound library
-function preload(){
-  winSound=loadSound("win.wav")
-collisionSound = loadSound("collision.wav");
-}
+// function preload(){
+//   winSound=loadSound("win.wav")
+// collisionSound = loadSound("collision.wav");
+// }
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noCursor();
@@ -42,10 +41,10 @@ function setup() {
       y: data.y * height
     };
   });
-  socket.on('playSound', function() {
-    console.log('Playing win sound!');
-    winSound.play();
-  });
+  // socket.on('playSound', function() {
+  //   console.log('Playing win sound!');
+  //   winSound.play();
+  // });
 
   socket.on('userLeft', function(data) {
     delete otherUsers[data];
@@ -56,14 +55,6 @@ function draw() {
   let c1 = color(0);
   let c2 = color(255);
   let progress = constrain(transition, 0, 1);
-  if (!isConnected) {
-    fill(0);
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    text("Click to connect to server", width/2,height/2);
-    return; 
-  }
-  
   
   //color flip
   if (bgIsBlack) {
@@ -95,9 +86,13 @@ function draw() {
     };
     socket.emit('trigger', data);
   }
-  resolveCollision(mouseX, mouseY, user);
-
-   }
+// for collision
+    let d = dist(mouseX, mouseY, user.x, user.y);
+    if (d < size && millis() - lastCollisionTime > 1000) {
+     // collisionSound.play();
+      lastCollisionTime = millis();
+    }
+  }
 
   //maybe this solved the issue of sometimes background went undefined
   if(transition<1){
@@ -128,46 +123,10 @@ function mouseMoved(){
   //send my position to the server
   socket.emit('mouseMove', data);
 }
-
+// function mousePressed() {
+//   userStartAudio();
+// }
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   noCursor();
 }
-function mousePressed() {
-  if (!isConnected) {
-    isConnected = true;
-    userStartAudio();
-  }
-}
-
-function resolveCollision(px, py, user) {
-  let thisPos = createVector(px, py);
-  let otherPos = createVector(user.x, user.y);
-  let vector = p5.Vector.sub(otherPos, thisPos);
-  let distance = vector.mag();
-
-  if (distance < size && distance > 0) {
-    // collided!
-    let force = vector.copy();
-    force.mult(-1);
-    force.normalize();
-    force.mult(1.3); 
-    otherPos.add(force);
-
-    user.x = otherPos.x;
-    user.y = otherPos.y;
-    
-    // let data = {
-    //   x: otherPos.x / width,
-    //   y: otherPos.y / height,
-    //   id: userId,
-    //   isCollision: true
-    // };
-    //socket.emit('collisionPush', data);
-    if (millis() - lastCollisionTime > 500) {
-      collisionSound.play();
-      lastCollisionTime = millis();
-    }
-  }
-}
-
