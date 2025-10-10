@@ -20,8 +20,8 @@ if (process.platform == 'darwin') {
     '-framerate', '30',                      // needed
     '-video_size', '1280x720',               // optional: 1920x1080, 640x480 (default: largest)
     '-i', 'default',                         // which camera device (0, 1, ..)
-    '-filter:v', 'fps=10',                   // optional: change framerate
-    // '-filter:v', 'fps=10,scale=640x360',  // optional: resize output
+    //'-filter:v', 'fps=10',                   // optional: change framerate
+    //'-filter:v', 'fps=10,scale=640x360',  // optional: resize output
     '-q:v', '7',                             // optional: quality (1=best, 31=worst)
   ];
 

@@ -10,11 +10,11 @@ let collisionSound;
 let lastCollisionTime = 0;
 let otherUsers ={};
 
-// getting error message when linking p5 sound library
-// function preload(){
-//   winSound=loadSound("win.wav")
-// collisionSound = loadSound("collision.wav");
-// }
+
+function preload(){
+  winSound=loadSound("win.wav")
+collisionSound = loadSound("collision.wav");
+}
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noCursor();
@@ -41,10 +41,10 @@ function setup() {
       y: data.y * height
     };
   });
-  // socket.on('playSound', function() {
-  //   console.log('Playing win sound!');
-  //   winSound.play();
-  // });
+  socket.on('playSound', function() {
+    console.log('Playing win sound!');
+    winSound.play();
+  });
 
   socket.on('userLeft', function(data) {
     delete otherUsers[data];
@@ -89,7 +89,7 @@ function draw() {
 // for collision
     let d = dist(mouseX, mouseY, user.x, user.y);
     if (d < size && millis() - lastCollisionTime > 1000) {
-     // collisionSound.play();
+      collisionSound.play();
       lastCollisionTime = millis();
     }
   }
@@ -123,9 +123,9 @@ function mouseMoved(){
   //send my position to the server
   socket.emit('mouseMove', data);
 }
-// function mousePressed() {
-//   userStartAudio();
-// }
+function mousePressed() {
+  userStartAudio();
+}
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   noCursor();
