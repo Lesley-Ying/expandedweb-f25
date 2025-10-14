@@ -11,7 +11,7 @@ let lastCollisionTime = 0;
 let otherUsers ={};
 let isConnected = false;
 
-// getting error message when linking p5 sound library
+
 function preload(){
   winSound=loadSound("win.wav")
 collisionSound = loadSound("collision.wav");
