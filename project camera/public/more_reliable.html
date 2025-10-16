@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="p5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <body>
+    <img src="/stream.mjpeg" id="stream">
+    <script>
+        // This is using a script to restart the Motion JPEG stream
+        // if it gets interrupted.
+        // Source: https://stackoverflow.com/a/70672203
+
+        let image = document.getElementById('stream');
+
+        async function check() {
+            while (true) {
+                try {
+                    await image.decode();
+                } catch {
+                    let src = image.src;
+                    image.src = "";
+                    image.src = src;
+                }
+                await new Promise((resolve) => setTimeout(resolve, 2500));
+            }
+        }
+
+        check();
+    </script>
+    <main>
+    </main>
+    <script src="sketch.js"></script>
+  </body>
+</html>
