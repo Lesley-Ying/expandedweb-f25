@@ -22,10 +22,12 @@ function preload() {
   carSound = loadSound("cars.wav");
   tickSound=loadSound("tick.wav");
   
+  
 }
 function setup() {
   createCanvas(640, 360);
   angleMode(DEGREES);
+  
   spacing = width / numPoints;
 
   socket = io();
@@ -54,6 +56,7 @@ function draw() {
     fill(0);
     textAlign(CENTER, CENTER);
     textSize(32);
+    stroke(0);
     text("Click to connect to server", width/2,height/2);
     return; 
   }
@@ -94,6 +97,8 @@ function draw() {
     countdown = switchInterval;
     if(!isMoving){
       carSound.play();
+    }else{
+      walkSound.play();
     }
   }
   let currentSecond = int(countdown / 1000); // 当前剩余秒数
@@ -166,10 +171,6 @@ if (currentSecond != lastSecond) {
     }
   }
 
-  fill(255);
-  noStroke();
-  textSize(16);
-  text(instruction, 10, 30);
   
   
   noStroke();
