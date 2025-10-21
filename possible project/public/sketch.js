@@ -97,8 +97,6 @@ function draw() {
     countdown = switchInterval;
     if(!isMoving){
       carSound.play();
-    }else{
-      walkSound.play();
     }
   }
   let currentSecond = int(countdown / 1000); // 当前剩余秒数
